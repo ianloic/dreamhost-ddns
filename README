@@ -1,0 +1,32 @@
+Self-hosted Dynamic DNS for DreamHost Users
+
+It's simple to run your own dynamic DNS server in your DreamHost account if
+you use DreamHost to manage your domain names. 
+
+ * Check out this directory to somewhere in your DH account that's publically
+   accessible.
+
+ * Get an API key from: https://panel.dreamhost.com/index.cgi?tree=home.api
+   for "All dns functions". Put that key in ~/.ddns-api-key
+
+ * Create a htpassword file with hostname you want to use as the username:
+    htpasswd -c ~/.ddns.htpasswd home.example.com
+
+ * Update the .htaccess file in this directory so that the AuthUserFile 
+   points to your home directory:
+    AuthUserFile /home/myusername/.ddns.htpasswd
+
+ * Configure your router to talk to the new server. In DD-WRT choose,
+   DDNS Service = Custom
+   DYNDNS Server = the hostname that this script runs on (eg: www.example.com)
+   URL = the path on this server, plus "?" (eg: /ddns/?)
+   User Name & Host Name = the dynamic DNS host name (eg: home.example.com)
+   Additional DDNS Options = --dyndns_system dyndns@dyndns.org
+     This script implements the dyndns protocol so tell the router to use that.
+
+NOTE: DreamHost DNS entries have a TTL (time-to-live) of 4 hours so they
+won't be quite as dynamic as a real DynDNS service.
+
+References:
+  http://wiki.dreamhost.com/API/Dns_commands
+  http://www.dyndns.com/developers/specs/

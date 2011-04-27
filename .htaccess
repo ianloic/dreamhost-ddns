@@ -1,0 +1,12 @@
+# authentication
+AuthUserFile /home/yakk/.ddns.htpasswd
+AuthGroupFile /dev/null
+AuthName DDNS
+AuthType Basic
+require valid-user
+
+# pass that on to PHP
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization},L]
+</IfModule>
