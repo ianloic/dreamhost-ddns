@@ -38,8 +38,8 @@ if fs.has_key('hostname') and fs.has_key('myip'):
   else:
     myip = fs['myip'].value
     if replace_record(fs['hostname'].value, myip):
-      print 'good' + myip # worked according to plan
+      print 'good ' + myip # worked according to plan
     else:
-      print 'nochg' + myip # didn't work out
+      print 'nochg ' + myip # didn't work out
 else:
   print 'error'
