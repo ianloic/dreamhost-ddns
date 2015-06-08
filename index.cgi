@@ -36,9 +36,10 @@ if fs.has_key('hostname') and fs.has_key('myip'):
   if fs['hostname'].value != os.environ['REMOTE_USER']:
     print 'nohost' # not a valid hostname / username combo
   else:
-    if replace_record(fs['hostname'].value, fs['myip'].value):
-      print 'good' # worked according to plan
+    myip = fs['myip'].value
+    if replace_record(fs['hostname'].value, myip):
+      print 'good ' + myip # worked according to plan
     else:
-      print 'nochg' # didn't work out
+      print 'nochg ' + myip # didn't work out
 else:
   print 'error'
