@@ -14,7 +14,9 @@ you use DreamHost to manage your domain names.
 
  * Update the .htaccess file in this directory so that the AuthUserFile 
    points to your home directory:
-    AuthUserFile /home/myusername/.ddns.htpasswd
+    AuthUserFile /home/YOURUSERNAME/.ddns.htpasswd
+
+    Note: Change YOURUSERNAME to your dreamhost username!
 
  * Configure your router to talk to the new server. In DD-WRT choose,
    DDNS Service = Custom

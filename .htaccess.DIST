@@ -1,6 +1,8 @@
+## COPY THIS FILE TO .htaccess and EDIT IT
+# 
+#
 # authentication
-AuthUserFile /home/yakk/.ddns.htpasswd
-AuthGroupFile /dev/null
+AuthUserFile /home/YOURUSERNAME/.ddns.htpasswd
 AuthName DDNS
 AuthType Basic
 require valid-user
