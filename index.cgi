@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import urllib, cgi, os.path
+import urllib.request, urllib.parse, os.path
 
 APIKEY = open(os.path.expanduser('~/.ddns-api-key')).read().strip()
 
@@ -8,9 +8,9 @@ def call(cmd, **args):
   '''Call a DreamHost API method'''
   args['key'] = APIKEY
   args['cmd'] = cmd
-  result = [l.strip() for l in 
-      urllib.urlopen('https://api.dreamhost.com/?' + 
-        urllib.urlencode(args)).readlines()]
+  result = [l.decode('ascii').strip() for l in
+      urllib.request.urlopen('https://api.dreamhost.com/?' +
+        urllib.parse.urlencode(args)).readlines()]
   return result[0], result[1:]
 
 def replace_record(name, ip):
@@ -28,18 +28,19 @@ def replace_record(name, ip):
   status, response = call('dns-add_record', record=name, type='A', value=ip, comment='DDNS')
   return status == 'success'
 
-print 'Content-type: text/plain'
-print ''
+print('Content-type: text/plain')
+print('')
 
-fs = cgi.FieldStorage()
-if fs.has_key('hostname') and fs.has_key('myip'):
-  if fs['hostname'].value != os.environ['REMOTE_USER']:
-    print 'nohost' # not a valid hostname / username combo
+
+fs = dict(urllib.parse.parse_qsl(os.environ['QUERY_STRING']))
+if 'hostname' in fs and 'myip' in fs:
+  if fs['hostname'] != os.environ['REMOTE_USER']:
+    print('nohost') # not a valid hostname / username combo
   else:
-    myip = fs['myip'].value
-    if replace_record(fs['hostname'].value, myip):
-      print 'good ' + myip # worked according to plan
+    myip = fs['myip']
+    if replace_record(fs['hostname'], myip):
+      print('good ' + myip) # worked according to plan
     else:
-      print 'nochg ' + myip # didn't work out
+      print('nochg ' + myip) # didn't work out
 else:
-  print 'error'
+  print('error')
